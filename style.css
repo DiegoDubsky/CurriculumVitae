@@ -1,0 +1,261 @@
+html {
+    font-size: 62.5%;
+
+    /*
+    Los colores los ponemos en HEX para que se muestren en el intellisense */
+    --bg_light: #b0b0b0;
+    --bg_dark: #363636;
+    /* ...aunque a veces prefiero ponerlos en HSL que es de más rápida interpretación y edición */
+    --bg_mid: hsla(0, 0%, 21%, 0.3);
+    --c_primary_dark: #00192a;
+    --c_primary_light: #023e66;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+}
+
+body {
+    font-family: "Roboto Slab", serif;
+
+    font-weight: 400;
+    font-size: 15pt;
+
+    background-color: var(--bg_dark);
+    color: hsl(0, 0%, 10%);
+}
+
+b {
+    font-weight: 500;
+    font-size: inherit;
+}
+
+/*===========*/
+/* SCROLLBAR */
+/*===========*/
+body::-webkit-scrollbar {
+    width: 2rem;
+}
+body::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px hsla(0, 0%, 0%, 0.3);
+}
+body::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, var(--c_primary_dark), var(--c_primary_light));
+}
+
+/*======*/
+/* PAGE */
+/*======*/
+.container {
+    width: 120rem;
+    margin: 5rem auto;
+    position: relative;
+}
+
+#page {
+    height: 99rem;
+    background-color: var(--bg_light);
+}
+
+/*
+    "Cortamos" los divs superior e inferior de la página
+    con el SVG escondido en el markup
+*/
+.clipped_arrow {
+    height: 5rem;
+    width: 100%;
+
+    -webkit-clip-path: url(#clip_arrowDown);
+    clip-path: url(#clip_arrowDown);
+
+    background-color: var(--bg_light);
+}
+
+.clipped_arrow--up {
+    transform: scaleY(-1);
+}
+.shadow--up {
+    filter: drop-shadow(0px -5px 2px rgb(0, 0, 0, 0.3));
+}
+
+.shadow--down {
+    filter: drop-shadow(0px 5px 2px rgb(0, 0, 0, 0.3));
+}
+
+.hide {
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+
+/*=========*/
+/* PROFILE */
+/*=========*/
+#profile {
+    display: grid;
+    grid-template-columns: 40% 16% 43%;
+    align-items: flex-start;
+    gap: 2rem;
+
+    padding-block: 4rem;
+
+    text-align: right;
+}
+
+/*
+    Ponemos el centro en un plano más elevado
+    que las lineas entre párrafos
+*/
+.profile_center {
+    z-index: 1;
+}
+
+.profile_center img {
+    border-radius: 50%;
+    box-shadow: 0px 0px 5px black;
+}
+
+.profile_left p + p {
+    margin-top: 0.5rem;
+}
+
+.profile_left p:nth-child(1),
+.profile_right p > b {
+    color: var(--c_primary_dark);
+}
+
+/* PROFILE LEFT - CHILDS
+    No habría que posicionarlos con
+    magic numbers, para RIGHT hay
+    una solución más elegante...
+*/
+.profile_left p:nth-child(1) {
+    transform: translateX(33px);
+
+    font-weight: 500;
+}
+.profile_left p:nth-child(2) {
+    transform: translateX(13px);
+}
+.profile_left p:nth-child(3) {
+    transform: translateX(3px);
+}
+.profile_left p:nth-child(4) {
+    transform: translateX(1px);
+}
+.profile_left p:nth-child(5) {
+    transform: translateX(6px);
+}
+.profile_left p:nth-child(6) {
+    transform: translateX(17px);
+}
+.profile_left p:nth-child(7) {
+    transform: translateX(44px);
+}
+
+/* PROFILE RIGHT */
+.profile_right {
+    position: relative;
+    left: -200px;
+
+    text-align: left;
+}
+
+/* Forma Circular */
+/*
+    Un pseudoelemento con
+    tamaño igual a la foto
+    y shape-outside
+*/
+.profile_right::before {
+    content: "";
+    display: block;
+    float: left;
+    width: 200px;
+    height: 200px;
+    shape-outside: circle(50%);
+}
+
+/* "Lineas" de subrayado */
+.profile_right p + p::before {
+    content: "";
+    display: block;
+    position: relative;
+    width: 100%;
+    padding-top: 1rem;
+    z-index: 0;
+
+    background: linear-gradient(var(--bg_light) 50%,rgba(0, 25, 42, 0.2) 60%,var(--bg_light) 100%);
+}
+
+/*
+    A la última linea hay que esconderle un tramo del principio...
+*/
+.profile_right p + p:last-of-type::after
+{
+    content: "";
+    display: block;
+    position: relative;
+    height: 1rem;
+    width: 20%;
+    top: -3.4rem;
+    background-color: var(--bg_light);
+}
+
+/*=======*/
+/* STORY */
+/*=======*/
+#story {
+    position: relative;
+    margin-inline: 3rem;
+    padding: 3rem;
+
+    /* Una forma más elegante de recortar la sección
+    que la que exploramos anteriormente con el SVG escondido: */
+    clip-path: polygon(0 0, 50% 3%, 100% 0, 100% 100%, 50% 98%, 0% 100%);
+    -webkit-clip-path: polygon(0 0, 50% 3%, 100% 0, 100% 100%, 50% 98%, 0% 100%); /* ...creo que el prefijo ya no haría falta... */
+
+    /* El bisel superior que recortamos agrega un poco
+    de espacio entre la foto y el centro; tiramos para arriba un pelín... */
+    transform: translateY(-1rem);
+
+    border-radius: 0 0 1rem 1rem;
+    box-shadow: inset 0px 0px 150px var(--bg_mid);
+}
+
+.story_columns {
+    display: flex;
+    gap: 1.5rem;
+}
+
+#story p {
+    flex-basis: 100%;
+
+    font-size: 12pt;
+}
+
+/* #story::before {
+    content: '';
+    display: block;
+    position: absolute;
+    inset: 0;
+    height: 1rem;
+    width: 100%;
+
+    clip-path: url(#clip_arrowDown);
+    transform: translateY(-100%);
+
+    background-color: #757575;
+} */
+
+.story_today {
+    padding-top: 2rem;
+
+    text-align: justify;
+}
