@@ -216,6 +216,9 @@ body::-webkit-scrollbar-thumb {
     margin-inline: 3rem;
     padding: 3rem;
 
+    /* Inicializamos el contador para los párrafos y sus pseudoelementos */
+    counter-reset: p-counter;
+
     /* Una forma más elegante de recortar la sección
     que la que exploramos anteriormente con el SVG escondido: */
     clip-path: polygon(0 0, 50% 3%, 100% 0, 100% 100%, 50% 98%, 0% 100%);
@@ -227,6 +230,8 @@ body::-webkit-scrollbar-thumb {
 
     border-radius: 0 0 1rem 1rem;
     box-shadow: inset 0px 0px 150px var(--bg_mid);
+    border: solid 3px var(--bg_mid);
+    
 }
 
 .story_columns {
@@ -240,19 +245,19 @@ body::-webkit-scrollbar-thumb {
     font-size: 12pt;
 }
 
-/* #story::before {
-    content: '';
-    display: block;
-    position: absolute;
-    inset: 0;
-    height: 1rem;
+.story_columns span {
+    position: relative;
+    text-align: center;
     width: 100%;
+    display: block;
+    height: 6rem;
 
-    clip-path: url(#clip_arrowDown);
-    transform: translateY(-100%);
+    font-family: 'Uchen', serif;
+    font-size:  x-large;
 
-    background-color: #757575;
-} */
+    color: var(--bg_dark);
+    opacity: 0.3;
+}
 
 .story_today {
     padding-top: 2rem;
