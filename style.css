@@ -8,7 +8,19 @@ html {
     /* ...aunque a veces prefiero ponerlos en HSL que es de más rápida interpretación y edición */
     --bg_mid: hsla(0, 0%, 21%, 0.3);
     --c_primary_dark: #00192a;
-    --c_primary_light: #023e66;
+    --c_primary_bright: #023e66;
+    /* --c_primary_brighter: #1a91e0; */
+    --c_primary_smooth: #c0c9f7;
+    --c_primary_high: #001a54;
+    --c_secondary_dark: #c16b12;
+    --c_secondary_light: #f5c366;
+    --c_secondary_smooth: #fffab2;
+
+    /* El margén asignado por posición al contenido de los resumes */
+    --m_content: 3.5rem;
+    /* Cuanto sobresalen los plieges de los banners */
+    
+    cursor: url('Assets/cursor.png'), auto;
 }
 
 * {
@@ -22,10 +34,10 @@ img {
 }
 
 body {
-    font-family: "Roboto Slab", serif;
+    font-family: 'Rubik', sans-serif;
 
     font-weight: 400;
-    font-size: 15pt;
+    font-size: 14pt;
 
     background-color: var(--bg_dark);
     color: hsl(0, 0%, 10%);
@@ -34,6 +46,27 @@ body {
 b {
     font-weight: 500;
     font-size: inherit;
+}
+
+a {
+    display: inline-block;
+
+    text-decoration: none;
+    font-weight: bold;
+
+    color: var(--c_primary_bright);
+    cursor: url('Assets/hand.png'), auto;
+
+    transition: all 0.3s ease-in-out;
+}
+
+a:hover {
+    color: var(--c_primary_high);
+}
+
+.high--cursive {
+    font-style: italic;
+    color: var(--c_primary_high);
 }
 
 /*===========*/
@@ -46,7 +79,7 @@ body::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px hsla(0, 0%, 0%, 0.3);
 }
 body::-webkit-scrollbar-thumb {
-    background: linear-gradient(45deg, var(--c_primary_dark), var(--c_primary_light));
+    background: linear-gradient(45deg, var(--c_primary_dark), var(--c_primary_bright));
 }
 
 /*======*/
@@ -59,7 +92,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 #page {
-    height: 99rem;
+    height: auto;
     background-color: var(--bg_light);
 }
 
@@ -94,6 +127,18 @@ body::-webkit-scrollbar-thumb {
     height: 0;
 }
 
+.highlight {
+    --shadow: rgb(180, 16, 16);
+    font-size: 2rem;
+    text-shadow: 
+    -1px -1px 1px var(--shadow), /* Sombra superior izquierda */
+    1px -1px 1px #000000c2,  /* Sombra superior derecha */
+    -1px 1px 2px var(--shadow),  /* Sombra inferior izquierda */
+    1px 1px 2px black;
+
+    color: var(--c_secondary_light);
+}
+
 /*=========*/
 /* PROFILE */
 /*=========*/
@@ -106,6 +151,8 @@ body::-webkit-scrollbar-thumb {
     padding-block: 4rem;
 
     text-align: right;
+
+    cursor: url('Assets/hand.png'), auto;
 }
 
 /*
@@ -114,11 +161,42 @@ body::-webkit-scrollbar-thumb {
 */
 .profile_center {
     z-index: 1;
+    transition: all 1s ease-out;
 }
 
 .profile_center img {
     border-radius: 50%;
-    box-shadow: 0px 0px 5px black;
+    border: solid 2px #00000075;
+    box-shadow: black 1px 1px 8px;
+    background-image: url("Assets/Profile_Background.png");
+
+    animation: anim_profile_back 21s ease-in-out infinite;
+
+}
+
+.profile_center:hover {
+    filter: sepia()
+}
+
+/* Animación del fondo de la foto */
+@keyframes anim_profile_back {
+    0% {
+        background-size: 192px;
+    }
+    50% {
+        background-size: 676px;
+    }
+    100% {
+        background-size: 192px;
+    }
+}
+
+#profile_photo {
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Agrega una transición suave a la rotación */
+}
+
+.rotated {
+    transform: rotate(180deg); /* Cambia el ángulo de rotación según tus necesidades */
 }
 
 .profile_left p + p {
@@ -127,7 +205,7 @@ body::-webkit-scrollbar-thumb {
 
 .profile_left p:nth-child(1),
 .profile_right p > b {
-    color: var(--c_primary_dark);
+    letter-spacing: 2px;
 }
 
 /* PROFILE LEFT - CHILDS
@@ -147,22 +225,20 @@ body::-webkit-scrollbar-thumb {
     transform: translateX(3px);
 }
 .profile_left p:nth-child(4) {
-    transform: translateX(1px);
-}
-.profile_left p:nth-child(5) {
-    transform: translateX(6px);
+    transform: translateX(-1px);
 }
 .profile_left p:nth-child(6) {
-    transform: translateX(17px);
+    transform: translateX(11px);
 }
 .profile_left p:nth-child(7) {
-    transform: translateX(44px);
+    transform: translateX(30px);
 }
 
 /* PROFILE RIGHT */
 .profile_right {
     position: relative;
     left: -200px;
+    width: 600px;
 
     text-align: left;
 }
@@ -191,14 +267,13 @@ body::-webkit-scrollbar-thumb {
     padding-top: 1rem;
     z-index: 0;
 
-    background: linear-gradient(var(--bg_light) 50%,rgba(0, 25, 42, 0.2) 60%,var(--bg_light) 100%);
+    background: linear-gradient(var(--bg_light) 50%, rgba(0, 25, 42, 0.2) 60%, var(--bg_light) 100%);
 }
 
 /*
     A la última linea hay que esconderle un tramo del principio...
 */
-.profile_right p + p:last-of-type::after
-{
+.profile_right p + p:last-of-type::after {
     content: "";
     display: block;
     position: relative;
@@ -214,7 +289,8 @@ body::-webkit-scrollbar-thumb {
 #story {
     position: relative;
     margin-inline: 3rem;
-    padding: 3rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
 
     /* Inicializamos el contador para los párrafos y sus pseudoelementos */
     counter-reset: p-counter;
@@ -228,10 +304,11 @@ body::-webkit-scrollbar-thumb {
     de espacio entre la foto y el centro; tiramos para arriba un pelín... */
     transform: translateY(-1rem);
 
+    font-family: 'Roboto Slab', serif;
+
     border-radius: 0 0 1rem 1rem;
     box-shadow: inset 0px 0px 150px var(--bg_mid);
     border: solid 3px var(--bg_mid);
-    
 }
 
 .story_columns {
@@ -245,6 +322,7 @@ body::-webkit-scrollbar-thumb {
     font-size: 12pt;
 }
 
+/* Números romanos */
 .story_columns span {
     position: relative;
     text-align: center;
@@ -252,11 +330,11 @@ body::-webkit-scrollbar-thumb {
     display: block;
     height: 6rem;
 
-    font-family: 'Uchen', serif;
-    font-size:  x-large;
+    font-family: "Uchen", serif;
+    font-size: x-large;
 
     color: var(--bg_dark);
-    opacity: 0.3;
+    opacity: 0.8;
 }
 
 .story_today {
@@ -264,3 +342,224 @@ body::-webkit-scrollbar-thumb {
 
     text-align: justify;
 }
+
+/* ====== */
+/* RESUME */
+/* ====== */
+#resume {
+    display: flex;
+    justify-content: space-around;
+    gap: 5rem;
+}
+
+#resume p, li {
+    line-height: 2.5rem;
+}
+
+#resume content {
+    display: block;
+    position: relative;
+    margin-top: 2.5rem;
+
+    font-size: 1.8rem;
+}
+
+/* A los b que tengan un p o un b arriba le ponemos margin */
+#resume p + b, #resume i + b, #resume ul + b {
+    display: inline-block;
+    margin-top: 2rem;
+}
+
+.resume_left, .resume_right {
+    flex-basis: 50%;
+}
+
+.resume_subtitle {
+    font-size: 2rem;
+}
+
+.min-line-height {
+    line-height: 0.1ch;
+}
+
+.content--left {
+    padding-left: var(--m_content);
+}
+
+.content--right {
+    padding-right: var(--m_content);
+
+    text-align: right;
+}
+
+.resume_studies {
+    grid-area: studies;
+}
+
+.resume_skills {
+    grid-area: skills;
+}
+
+/* Ribbons para cada titulo del resúmen */
+.ribbon {
+    display: block;
+    position: relative;
+    left: -13px;
+    width: 103%;
+    margin-top: 2rem;
+
+    font-size: 20px;
+    text-align: center;
+}
+
+.ribbon_text {
+    display: block;
+    position: relative;
+    padding: 0.5em 1em;
+    background: linear-gradient(var(--c_primary_bright),var(--c_primary_dark));
+
+    line-height: 1.2em;
+    letter-spacing: 0.2ch;
+
+    color: white;
+    text-shadow: 1px 1px 1px black;
+    border-radius: 6px 0 6px 0;
+}
+.ribbon_text--reverse {
+    border-radius: 0 6px 0 6px;
+    left: 13px;
+}
+.ribbon_text:before,
+.ribbon_text:after{
+    content: "";
+    position: absolute;
+    border-style: solid;
+}
+.ribbon_text:before {
+    top: 100%;
+    left: 0;
+    border-width: 0 0.6em 0.8em 0;
+    border-color: transparent black transparent transparent
+}
+.ribbon_text:after {
+    bottom: 100%;
+    right: 0;
+    border-width: 0.6em 0em 0em 3em;
+    border-color: transparent transparent transparent var(--c_primary_dark);
+}
+.ribbon_text--reverse:after {
+    top: 100%;
+    right: 0;
+    border-width: 1em 0.8em 0.8em 0;
+    border-color: black transparent transparent transparent;
+}
+.ribbon_text--reverse:before {
+    top: -12px;
+    transform: scaleX(-1);
+    left: 0;
+    border-width: 0.6em 0em 0em 3em;
+    border-color: transparent transparent transparent var(--c_primary_dark);
+}
+
+.ribbon--thin {
+    display: inline-block;
+    width: 50%;
+    padding-bottom: 2rem;
+}
+
+.ribbon--thin:last-of-type {
+    transform: translateX(15px);
+}
+/* Ribbons END */
+
+
+
+/* --------------- */
+/* RESUME ARTICLES */
+/* --------------- */
+.tags {
+    display: flex;
+    gap: 1rem;
+}
+
+.tags span {
+    display: inline-block;
+    padding: 0.1em 0.5em;    
+    margin-bottom: 0.5rem;
+
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 500;
+    font-family: 'Chivo Mono', monospace;
+
+    color: black;
+    border: solid 1px var(--bg_dark);
+    background-color: var(--c_primary_smooth);
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.4);
+    border-radius: 3px;
+}
+
+.resume--less_margin  .ribbon {
+    margin-top: 2rem;
+}
+
+.resume_work ul {
+    margin-left: 2rem;
+}
+
+.resume_courses p {
+    line-height: 1ch;
+}
+
+.resume_github {
+    justify-content: end;
+}
+
+.al100x100 {
+    position: relative;
+    left: 6px;
+    margin-top: 4rem;
+    width: 500px;
+    
+    text-align: center;
+    margin-inline: auto;
+    font-weight: bold;
+}
+
+.ribbons_end {
+    display: flex;    
+    justify-content: space-around;
+    margin-top: 4rem;
+}
+
+.EXITO {
+    position: relative;
+    top: 6px;
+
+    --shadow: rgb(44 19 160 / 75%);
+    letter-spacing: 0.5ch;
+    font-size: 2.3rem;
+    text-shadow: 1px -1px 3px var(--shadow), /* Sombra superior izquierda */ 1px -1px 3px #000000c2, /* Sombra superior derecha */ -1px 1px 3px var(--shadow), /* Sombra inferior izquierda */ 1px 1px 3px black;
+    color: #ffffff;
+}
+
+/*===========*/
+/* UTILITIES */
+/*===========*/
+.mt-1 {
+    margin-top: 1rem;
+}
+
+.mt-2 {
+    margin-top: 2rem;
+}
+
+.mt-4 {
+    margin-top: 4rem;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* coded by   D I E G O   B O L Z Á N   D U B S K Y  */
