@@ -17,7 +17,7 @@ window.addEventListener("mousemove", function (event) {
     var y = event.clientY - rect.top - container.offsetHeight / 2;
 
     // Calcula el ángulo de rotación basado en las coordenadas del puntero utilizando la función Math.atan2
-    var rotation = Math.atan2(y, x) * (180 / Math.PI);
+    var rotation = Math.atan2(y, x) * (180 / Math.PI) + 10;
     // Actualiza la propiedad 'transform' del elemento de imagen con el ángulo de rotación calculado
     profileImage.style.transform = "rotate(" + rotation + "deg)";
 });
