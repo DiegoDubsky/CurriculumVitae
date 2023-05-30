@@ -222,6 +222,11 @@ body::-webkit-scrollbar-thumb {
   ); /* Cambia el ángulo de rotación según tus necesidades */
 }
 
+.profile_left a {
+  color: inherit;
+  font-weight: inherit;
+}
+
 .profile_left {
   font-size: 1.9rem;
 }
