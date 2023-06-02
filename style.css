@@ -544,6 +544,12 @@ li {
   border-radius: 3px;
 }
 
+.tag--button:hover {
+  cursor: url("Assets/hand.png"), auto;
+  background-color: var(--c_primary_bright);
+  color: white;
+}
+
 .resume--less_margin .ribbon {
   margin-top: 2rem;
 }
@@ -592,6 +598,39 @@ li {
     /* Sombra superior derecha */ -1px 1px 3px var(--shadow_bottom),
     /* Sombra inferior izquierda */ 1px 1px 3px black;
   color: #ffffff;
+}
+
+/*============*/
+/* CODE FORMAT */
+/*============*/
+#code_popup {
+  position: fixed;
+  inset: 0 0;
+  width: 80%;
+  z-index: 3;
+  display: none; /* Cuando se visibiliza es flex */
+
+  height: 10vh;
+  width: 1333px;
+  margin: 0 auto;
+
+  font-size: 9pt;
+}
+
+.code_container {
+  width: 50%;
+}
+
+.code_container_pre {
+  height: 100vh;
+}
+
+pre[class*="language-"] {
+  margin-block: 0;
+}
+
+.code_container_pre code {
+  position: relative;
 }
 
 /*===========*/

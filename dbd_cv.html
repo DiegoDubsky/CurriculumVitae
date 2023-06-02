@@ -4,14 +4,16 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="style.css" />
+        <link rel="icon" type="image/png" href="FavStar.png" />
+        <link rel="stylesheet" href="prism.css">        
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
         <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200;300;400;500&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Uchen&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@500;600;700;500&display=swap" rel="stylesheet">
-        <title>[CV] Diego Bolzán Dubsky</title>
+        <link rel="stylesheet" href="style.css" />
+        <title>&lt;CV&gt; Diego Bolzán Dubsky</title>
     </head>
     <body>
         <!-- SVG de los filetes del marco -->
@@ -117,7 +119,8 @@
                                 <ul>
                                     <li>Análisis, Diseño, Programación y Testing.</li>
                                     <li>Patrones de Diseño, Stored Procedures, Reporting Services.</li>
-                                    <li>ASP.NET, C#, WPF, MVC, SQL, Ajax, HTML, CSS y JavaScript.</li>
+                                    <li>ASP.NET, C#, HTML, CSS y JavaScript.</li>
+                                    <li>WPF, MVC, SQL, Ajax y Entity Framework.</li>
                                     <li>SVN y TestTrack</li>
                                 </ul>
 
@@ -174,7 +177,7 @@
                                 <br>
                                 <span>Bootstrap</span>
                                 <span>Tailwind</span>
-                                <span>Google Web Toolkit</span>
+                                <span>Entity Framework</span>
                             </content>
                         </article>
                         <!-- IDEs -->
@@ -239,10 +242,12 @@
 
                         
                         <div class="resume_github tags">
-                            
                                 <content class="content--right">
                                     <p class="mt-1">Algunas prácticas y proyectos se pueden encontrar en:</p>                                    
-                                    <a href="https://github.com/DiegoDubsky" target="_blank"><span>Mi Repositorio de GitHub</span></a>
+                                    <a href="https://github.com/DiegoDubsky" target="_blank"><span class="tag--button">Mi Repositorio de GitHub</span></a>
+                                    <br>
+                                    <br>
+                                    <span onclick="code_popup.style.display = 'flex'" class="tag--button">Código Fuente de este CV</span>
                                 </content>
                         </div>
 
@@ -266,6 +271,90 @@
             </div>
         </div>
 
-        <script src="script.js"></script>
+        <!-- Ver código fuente -->
+        <section id="code_popup" onmouseover="document.body.style.overflow='hidden';"  onmouseout="document.body.style.overflow='auto';">
+            <div class="code_container">
+                <pre class="code_container_pre"><code id="code_html" class="language-html">
+                </code></pre>
+            </div>
+            <div class="code_container">
+                <pre class="code_container_pre"><code id="code_css"  class="language-css">
+                </code></pre>
+            </div>
+        </section>
+
+        <script src="prism.js" data-manual></script>
+        <!-- El JS no lo ponemos en un archivo aparte para que pueda visualizarse
+             junto con el markup dentro del popup de Código Fuente
+        -->
+        <script>
+            // Elemento de imagen
+            const profile_photo = document.getElementById("profile_photo");
+            // Contenedor del perfil
+            const profile_center = document.querySelector(".profile_center");
+            // Contenedor del source
+            const code_popup = document.getElementById("code_popup");
+
+            let move = false;
+
+            // Agrega un evento 'mousemove' a la ventana para detectar cuando el mouse se mueve dentro de él
+            window.addEventListener("mousemove", function (event) {
+            // Si no está activado el movimiento, salimos...
+            if (!move) return;
+            // Obtiene la posición del contenedor en relación con el viewport
+            let rect = profile_center.getBoundingClientRect();
+
+            // Calcula las coordenadas del puntero relativas al centro del contenedor
+            let x = event.clientX - rect.left - profile_center.offsetWidth / 2;
+            let y = event.clientY - rect.top - profile_center.offsetHeight / 2;
+
+            // Calcula el ángulo de rotación basado en las coordenadas del puntero utilizando la función Math.atan2
+            let rotation = Math.atan2(y, x) * (180 / Math.PI) + 10;
+            // Actualiza la propiedad 'transform' del elemento de imagen con el ángulo de rotación calculado
+            profile_photo.style.transform = "rotate(" + rotation + "deg)";
+            });
+
+            // Cuando se clickea en cualquier parte vuelve a 0deg e invierte 'move'
+            window.addEventListener("click", function () {
+            profile_photo.style.transform = "rotate(0deg)"; // Restablece la rotación a cero cuando el mouse se sale del contenedor
+            move = !move;
+            });
+
+            // Cerramos el popup de código cuando apretamos Esc
+            window.addEventListener("keydown", function(e){
+            if(e.key === 'Escape')
+                code_popup.style.display = 'none';
+            });
+
+            // Muestra de los códigos fuentes
+            const codeHTML = document.getElementById("code_html");
+            const codeCSS = document.getElementById("code_css");
+
+            // Buscamos los contenidos de los archivos y los asignamos al innerHTML
+            // ni bien se haya cargado el DOM
+            fetch("dbd_cv.html")
+            .then((response) => response.text())
+            .then((code) => {
+                codeHTML.textContent = code;/* encodeURIComponent(code).replace(/%0A/g, "<br>"); */
+            })
+            .catch((error) => {
+                console.error("Error al cargar el archivo HTML:", error);
+            });
+            fetch("style.css")
+            .then((response) => response.text())
+            .then((code) => {
+                codeCSS.innerHTML = code;
+            }) 
+                .catch((error) => {
+                console.error("Error al cargar el archivo HTML:", error);
+            });
+
+            //Una vez cargada la ventana formateamos el código fuente
+            window.addEventListener("load", function() {
+            setTimeout(function(){
+                Prism.highlightAll();
+            },333);
+            });
+        </script>
     </body>
 </html>
