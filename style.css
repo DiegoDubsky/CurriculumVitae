@@ -17,9 +17,8 @@ html {
   --shadow_top: #6d0000;
   --shadow_bottom: #2c13a0bf;
 
-  /* El margén asignado por posición al contenido de los resumes */
+  /* El margén asignado al contenido de los resúmenes */
   --m_content: 3.5rem;
-  /* Cuanto sobresalen los plieges de los banners */
 
   cursor: url("Assets/cursor.png"), auto;
 }
@@ -90,6 +89,22 @@ body::-webkit-scrollbar-thumb {
 /*======*/
 /* PAGE */
 /*======*/
+.loading {
+  height: 100vh;
+  width: 100vw;
+  inset: 0 0;
+  position: fixed;
+  z-index: 4;
+
+  background-color: var(--bg_dark);  
+
+  transition: all 3s ease-in;
+}
+
+.loading--hide {
+  opacity: 0;
+}
+
 .container {
   width: 120rem;
   margin: 5rem auto;
@@ -157,7 +172,6 @@ body::-webkit-scrollbar-thumb {
     /* Sombra superior izquierda */ 1px -1px 1px #000000c2,
     /* Sombra superior derecha */ -1px 1px 2px var(--shadow_top),
     /* Sombra inferior izquierda */ 1px 1px 2px black;
-
   color: var(--c_secondary_light);
 }
 
@@ -182,8 +196,9 @@ body::-webkit-scrollbar-thumb {
     que las lineas entre párrafos
 */
 .profile_center {
-  z-index: 1;
-  transition: all 1s ease-out;
+  z-index: 4;
+  border-radius: 50%;
+  transition: transform 2.5s cubic-bezier(.31,-1.54,.3,.1), filter 3s ease-out, background-color 0s;
 }
 
 .profile_center img {
@@ -195,8 +210,14 @@ body::-webkit-scrollbar-thumb {
   animation: anim_profile_back 13s ease-in-out infinite;
 }
 
-.profile_center:hover {
-  filter: sepia();
+.profile_center--bgColor {
+  background-color: var(--bg_light);
+}
+
+.profile_center--init {
+  filter: sepia() brightness(1.5);
+  transform: scale(1.2) rotate(4deg);
+  background-color: transparent;
 }
 
 /* Animación del fondo de la foto */
@@ -603,18 +624,23 @@ li {
 /*============*/
 /* CODE FORMAT */
 /*============*/
-#code_popup {
+.code_popup {
   position: fixed;
-  inset: 0 0;
   width: 80%;
   z-index: 3;
-  display: none; /* Cuando se visibiliza es flex */
-
-  height: 10vh;
+  display: none;
   width: 1333px;
+  left: 0;
+  right: 0;
+  top: -100%;
   margin: 0 auto;
 
   font-size: 9pt;
+  transition: all 1s ease-in-out;
+}
+
+.code_popup--visible {
+  top: 0;
 }
 
 .code_container {
@@ -651,5 +677,6 @@ pre[class*="language-"] {
 .text-right {
   text-align: right;
 }
+
 
 /* coded by   D I E G O   B O L Z Á N   D U B S K Y  */
